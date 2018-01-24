@@ -82,6 +82,12 @@ NODE_VERSION=8.9.0
 INSTALL_MONGO=true
 INSTALL_PHANTOMJS=true
 INSTALL_GRAPHICSMAGICK=true
+
+# Cordova compatibility version
+# See https://guide.meteor.com/mobile.html#controlling-compatibility-version 
+METEOR_CORDOVA_COMPAT_VERSION_IOS=abc123
+METEOR_CORDOVA_COMPAT_VERSION_ANDROID=abc123
+METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE='cordova-plugin-camera'
 ```
 
 **Option #2 - Docker Build Args**

@@ -21,6 +21,13 @@ cd $APP_SOURCE_DIR
 printf "\n[-] Running npm install in app directory...\n\n"
 meteor npm install
 
+# If we want to overwrite Cordova compatibility version, do it here
+if [ -f $APP_SOURCE_DIR/launchpad.conf ]; then
+  source <(grep METEOR_CORDOVA_COMPAT_VERSION_IOS $APP_SOURCE_DIR/launchpad.conf)
+  source <(grep METEOR_CORDOVA_COMPAT_VERSION_ANDROID $APP_SOURCE_DIR/launchpad.conf)
+  source <(grep METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE $APP_SOURCE_DIR/launchpad.conf)
+fi
+
 # build the bundle
 printf "\n[-] Building Meteor application...\n\n"
 mkdir -p $APP_BUNDLE_DIR
