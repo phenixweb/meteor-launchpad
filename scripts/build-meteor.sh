@@ -17,6 +17,9 @@ export METEOR_ALLOW_SUPERUSER=true
 
 cd $APP_SOURCE_DIR
 
+# Use npm cache server for faster builds
+npm config set registry http://ec2-34-231-21-92.compute-1.amazonaws.com:24001/
+
 # Install app deps
 printf "\n[-] Running npm install in app directory...\n\n"
 meteor npm install
