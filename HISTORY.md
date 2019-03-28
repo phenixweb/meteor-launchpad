@@ -1,3 +1,9 @@
+## v2.3.1
+
+- Add support for Meteor 1.8
+- Removed MongoDB
+- Moved Debian Jessie to Stretch (see : https://unix.stackexchange.com/questions/508724/failed-to-fetch-jessie-backports-repository and https://github.com/jshimko/meteor-launchpad/pull/130/files)
+
 ## v2.3.0
 
 - Updates for Meteor 1.6 support

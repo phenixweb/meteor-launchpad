@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Jeremy Shimko <jeremy.shimko@gmail.com>
 
 RUN groupadd -r node && useradd -m -g node node
@@ -7,11 +7,6 @@ ENV DEV_BUILD true
 
 # Gosu
 ENV GOSU_VERSION 1.10
-
-# MongoDB
-ENV MONGO_VERSION 3.4.10
-ENV MONGO_MAJOR 3.4
-ENV MONGO_PACKAGE mongodb-org
 
 # PhantomJS
 ENV PHANTOM_VERSION 2.1.1
@@ -36,9 +31,6 @@ ONBUILD ENV APT_GET_INSTALL $APT_GET_INSTALL
 ONBUILD ARG NODE_VERSION
 ONBUILD ENV NODE_VERSION ${NODE_VERSION:-8.9.0}
 
-ONBUILD ARG INSTALL_MONGO
-ONBUILD ENV INSTALL_MONGO ${INSTALL_MONGO:-true}
-
 ONBUILD ARG INSTALL_PHANTOMJS
 ONBUILD ENV INSTALL_PHANTOMJS ${INSTALL_PHANTOMJS:-true}
 
@@ -50,7 +42,6 @@ ONBUILD RUN if [ "$APT_GET_INSTALL" ]; then apt-get update && apt-get install -y
 
 # optionally install Mongo or Phantom at app build time
 ONBUILD RUN bash $BUILD_SCRIPTS_DIR/install-phantom.sh
-ONBUILD RUN bash $BUILD_SCRIPTS_DIR/install-mongo.sh
 ONBUILD RUN bash $BUILD_SCRIPTS_DIR/install-graphicsmagick.sh
 
 # Node flags for the Meteor build tool
@@ -64,7 +55,6 @@ ONBUILD RUN bash $BUILD_SCRIPTS_DIR/build-meteor.sh
 
 # Default values for Meteor environment variables
 ENV ROOT_URL http://localhost
-ENV MONGO_URL mongodb://127.0.0.1:27017/meteor
 ENV PORT 3000
 
 EXPOSE 3000

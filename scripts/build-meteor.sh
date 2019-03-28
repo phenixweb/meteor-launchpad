@@ -23,15 +23,13 @@ meteor npm install
 
 # If we want to overwrite Cordova compatibility version, do it here
 if [ -f $APP_SOURCE_DIR/launchpad.conf ]; then
+  echo "\n[-] Export Cordova environment variables for Meteor mobile build (Hot code push)"
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_IOS $APP_SOURCE_DIR/launchpad.conf)
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_ANDROID $APP_SOURCE_DIR/launchpad.conf)
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE $APP_SOURCE_DIR/launchpad.conf)
   export METEOR_CORDOVA_COMPAT_VERSION_IOS=$METEOR_CORDOVA_COMPAT_VERSION_IOS
   export METEOR_CORDOVA_COMPAT_VERSION_ANDROID=$METEOR_CORDOVA_COMPAT_VERSION_ANDROID
   export METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE=$METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE
-  echo "Exporation des variables d'environement"
-  export
-  echo "-- FIN --"
 fi
 
 # build the bundle
