@@ -21,23 +21,27 @@ cd $APP_SOURCE_DIR
 printf "\n[-] Running npm install in app directory...\n\n"
 meteor npm install
 
+# build the bundle
+printf "\n[-] Building Meteor application...\n\n"
+mkdir -p $APP_BUNDLE_DIR
+
 # If we want to overwrite Cordova compatibility version, do it here
 if [ -f $APP_SOURCE_DIR/launchpad.conf ]; then
   echo "\n[-] Export Cordova environment variables for Meteor mobile build (Hot code push)"
+  echo $APP_SOURCE_DIR
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_IOS $APP_SOURCE_DIR/launchpad.conf)
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_ANDROID $APP_SOURCE_DIR/launchpad.conf)
   source <(grep METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE $APP_SOURCE_DIR/launchpad.conf)
   source <(grep AUTOUPDATE_VERSION $APP_SOURCE_DIR/launchpad.conf)
-  export METEOR_CORDOVA_COMPAT_VERSION_IOS=$METEOR_CORDOVA_COMPAT_VERSION_IOS
-  export METEOR_CORDOVA_COMPAT_VERSION_ANDROID=$METEOR_CORDOVA_COMPAT_VERSION_ANDROID
-  export METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE=$METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE
-  export AUTOUPDATE_VERSION=$AUTOUPDATE_VERSION
+  
+  AUTOUPDATE_VERSION=$AUTOUPDATE_VERSION \
+    METEOR_CORDOVA_COMPAT_VERSION_IOS=$METEOR_CORDOVA_COMPAT_VERSION_IOS \
+    METEOR_CORDOVA_COMPAT_VERSION_ANDROID=$METEOR_CORDOVA_COMPAT_VERSION_ANDROID \
+    METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE=$METEOR_CORDOVA_COMPAT_VERSION_EXCLUDE \
+    meteor build --directory $APP_BUNDLE_DIR --server-only
+else
+  meteor build --directory $APP_BUNDLE_DIR --server-only
 fi
-
-# build the bundle
-printf "\n[-] Building Meteor application...\n\n"
-mkdir -p $APP_BUNDLE_DIR
-meteor build --directory $APP_BUNDLE_DIR --server-only
 
 # run npm install in bundle
 printf "\n[-] Running npm install in the server bundle...\n\n"
